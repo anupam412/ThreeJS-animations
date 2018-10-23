@@ -7,3 +7,4 @@
 1.) Just download and open the HTML file of any of the experiments.
 
 # Preferred browser : Google Chrome
+( Note : Experiments marked with (*) need to be opened in the browsers which support cross-origin requests such as Mozilla firefox. )
