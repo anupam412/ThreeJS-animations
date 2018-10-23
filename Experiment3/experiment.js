@@ -153,24 +153,24 @@ function setOff(){
     wire3.material.color.setStyle("black");
     wire4.material.color.setStyle("black");
 
-curveObject.visible = false;
+	curveObject.visible = false;
 
-curveObject1.visible = false;
-curveObject2.visible = false;
-curveObject3.visible = false;
-curveObject4.visible = false;
-curveObject5.visible = false;
-curveObject6.visible = false;
-curveObject7.visible = false;
-curveObject8.visible = false;
-curveObject9.visible = false;
-curveObject10.visible = false;
-curveObject11.visible = false;
-curveObject12.visible = false;
+	curveObject1.visible = false;
+	curveObject2.visible = false;
+	curveObject3.visible = false;
+	curveObject4.visible = false;
+	curveObject5.visible = false;
+	curveObject6.visible = false;
+	curveObject7.visible = false;
+	curveObject8.visible = false;
+	curveObject9.visible = false;
+	curveObject10.visible = false;
+	curveObject11.visible = false;
+	curveObject12.visible = false;
 
-north.visible = false;
-south.visible = false;
-south2.visible  = false;
+	north.visible = false;
+	south.visible = false;
+	south2.visible  = false;
 
     PIErender();
 }
@@ -194,9 +194,8 @@ function speedDown(){
 
 function PIEmouseDown( event )
 {
-    var intersects;     // to hold return array of ray intersects
+    var intersects;  
 
-    // console.log("Mouse Down at ", PIEmouseP);
     event.defaultPrevented = true;
    
     PIEraycaster.setFromCamera(PIEmouseP, PIEcamera);
@@ -209,8 +208,7 @@ function PIEmouseDown( event )
             document.getElementById("start").click();
         }
         else{
-            //setOff();
-
+          
             line.material.color.setStyle("black");
             wire.material.color.setStyle("black");
             wire1.material.color.setStyle("black");
@@ -286,33 +284,31 @@ function mybattery( x, y, z){
 
 function PIEmouseMove( event )
 {
-var intersects;     // to hold return array of ray intersects
-
+	var intersects; 
     event.defaultPrevented = true;
 
     PIEmouseP.x = ( event.clientX / PIEcanvasW ) * 2 - 1;
     PIEmouseP.y = - ( event.clientY / PIEcanvasH ) * 2 + 1;
 
-    /* Cast the ray to find intersecting objects */
     PIEraycaster.setFromCamera(PIEmouseP, PIEcamera);
-        intersects = PIEraycaster.intersectObjects([switchMainBody]);
-        if (intersects.length > 0)
-        {
-            PIEdragPlane.setFromNormalAndCoplanarPoint(PIEcamera.getWorldDirection(PIEdragPlane.normal), intersects[0].object.position);
-            if (PIEselectedHover != intersects[0].object)
-            {
-                PIEdefaultHoverOFF(PIEselectedHover);
-                PIEselectedHover = intersects[0].object;
-                PIEdefaultHoverON(PIEselectedHover);
-            }
-            PIEscreenElem.style.cursor = 'pointer';
-        }
-        else if (PIEselectedHover != null)
+    intersects = PIEraycaster.intersectObjects([switchMainBody]);
+    if (intersects.length > 0)
+    {
+        PIEdragPlane.setFromNormalAndCoplanarPoint(PIEcamera.getWorldDirection(PIEdragPlane.normal), intersects[0].object.position);
+        if (PIEselectedHover != intersects[0].object)
         {
             PIEdefaultHoverOFF(PIEselectedHover);
-            PIEselectedHover = null;
-            PIEscreenElem.style.cursor = 'auto';
+            PIEselectedHover = intersects[0].object;
+            PIEdefaultHoverON(PIEselectedHover);
         }
+        PIEscreenElem.style.cursor = 'pointer';
+    }
+    else if (PIEselectedHover != null)
+    {
+        PIEdefaultHoverOFF(PIEselectedHover);
+        PIEselectedHover = null;
+        PIEscreenElem.style.cursor = 'auto';
+    }
     
 }
 
@@ -328,17 +324,14 @@ function loadExperimentElements() {
     PIEsetExperimentTitle("Simple railway signal");
     PIEsetDeveloperName("Anupam Singhal");
 
-    /* initialise help and info content */
     initialiseHelp();
     initialiseInfo();
 
-    /* initialise Scene */
     initialiseScene();
 
     onoff = 0;
 
     controls = new THREE.OrbitControls(PIEcamera, PIErenderer.domElement);
-//    controls.enabled = false;
  	
     mybattery(20,0,0);
 
@@ -356,15 +349,10 @@ function loadExperimentElements() {
     PIEaddElement(cylinderTube);
 
     var nailTube = new THREE.Mesh( new THREE.CylinderGeometry(0.5,0.5,2,24) ,new THREE.MeshPhongMaterial({color:"gray"}));
-   // nailTube.position.set(0,6,0);
-    
-   // PIEaddElement(nailTube);
-
     var nailTubeC = new THREE.Mesh( new THREE.CylinderGeometry(1,1,0.8,24) ,new THREE.MeshPhongMaterial({color:"gray"}));
     nailTube.add(nailTubeC);
    
     nailTubeC.position.set(0,1.3,0);
-//    PIErender();
 
 
     var geometry = new THREE.TubeGeometry( new THREE.LineCurve(new THREE.Vector3(-0.5,3,-2),new THREE.Vector3(20,2.5,0)), 20, 0.04, 8, false );
@@ -406,30 +394,27 @@ function loadExperimentElements() {
     wire4 = new THREE.Mesh(geometry, material);
     PIEaddElement(wire4);
 
-     switchMainBody = new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,6,32),new THREE.MeshPhongMaterial({color : "gray"}));
+	switchMainBody = new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,6,32),new THREE.MeshPhongMaterial({color : "gray"}));
     switchMainBody.rotation.z = Math.PI/2;
     key.add(switchMainBody);
     switchMainBody.position.set(3,0,0);
     key.rotation.z = Math.PI/4;
 
 
-     pin = new THREE.Mesh(new THREE.CylinderGeometry(1.3,1.3,1,8),new THREE.MeshBasicMaterial({color : "grey"}));
+	pin = new THREE.Mesh(new THREE.CylinderGeometry(1.3,1.3,1,8),new THREE.MeshBasicMaterial({color : "grey"}));
     pin.position.set(-24,10,0);
     PIEaddElement(pin);
     pin.rotation.x = Math.PI/2;
 
 	var support = new THREE.Mesh(new THREE.BoxGeometry(2.6,23,2),new THREE.MeshPhongMaterial({color: "gray"}));
-    //pin.add(pp);
     PIEaddElement(support);
     support.position.set(-29,1,0);
 
 	var support1 = new THREE.Mesh(new THREE.BoxGeometry(5,2,5),new THREE.MeshBasicMaterial({color: "black"}));
-    //pin.add(pp);
     PIEaddElement(support1);
     support1.position.set(-29,-10,0);
 
 	var support2 = new THREE.Mesh(new THREE.BoxGeometry(3.5,0.5,2),new THREE.MeshPhongMaterial({color: "gray"}));
-    //pin.add(pp);
     PIEaddElement(support2);
     support2.position.set(-27,10,0);
 
@@ -460,15 +445,13 @@ function loadExperimentElements() {
     PIEaddElement(bb);
     bb.rotation.x = Math.PI/2;
 
-
-
-     redLight = new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,4,32),new THREE.MeshBasicMaterial({color : "red"}));
+	redLight = new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,4,32),new THREE.MeshBasicMaterial({color : "red"}));
     redLight.position.set(-11,-6,0.01);
     PIEaddElement(redLight);
     redLight.rotation.x = Math.PI/2;
 
 
-     greenLight = new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,4,32),new THREE.MeshBasicMaterial({color : "#00ff00"}));
+	greenLight = new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,4,32),new THREE.MeshBasicMaterial({color : "#00ff00"}));
     greenLight.position.set(-18,-6,0.01);
     PIEaddElement(greenLight);
     greenLight.rotation.x = Math.PI/2;
@@ -479,299 +462,271 @@ function loadExperimentElements() {
 	new THREE.Vector3( -2, 5, 0 ),
 	new THREE.Vector3( -3, 6, 0 ),
 	new THREE.Vector3( -5, 8, 0 )
-);
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject = new THREE.Line( geometry, material );    
+	curveObject = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject);
+	PIEaddElement(curveObject);
+	
+		var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( -1, 3, 0 ),
+		new THREE.Vector3( -1, 5, 0 ),
+		new THREE.Vector3( -2, 6, 0 ),
+		new THREE.Vector3( -3, 8, 0 )
+	
+	);
+
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
+
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
+
+	curveObject1 = new THREE.Line( geometry, material );    
+
+	PIEaddElement(curveObject1);
+
+		var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( -0, 3, 0 ),
+		new THREE.Vector3( -0, 6, 0 ),
+		new THREE.Vector3( -0.5, 6, 0 ),
+		new THREE.Vector3( -1, 8, 0 )
+	);
+
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
+
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
+
+	curveObject2 = new THREE.Line( geometry, material );    
+	
+	PIEaddElement(curveObject2);
+
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( 0.5, 3, 0 ),
+		new THREE.Vector3( 0.5, 5, 0 ),
+		new THREE.Vector3( 0.5, 8, 0 ),
+		new THREE.Vector3( 1, 8, 0 )
+	);
+
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
+
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
+
+	curveObject3 = new THREE.Line( geometry, material );    
+	
+	PIEaddElement(curveObject3);
 
 
 	var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( -1, 3, 0 ),
-	new THREE.Vector3( -1, 5, 0 ),
-	new THREE.Vector3( -2, 6, 0 ),
-	new THREE.Vector3( -3, 8, 0 )
-);
+		new THREE.Vector3( 1, 3, 0 ),
+		new THREE.Vector3( 1, 5, 0 ),
+		new THREE.Vector3( 2, 6, 0 ),
+		new THREE.Vector3( 3, 8, 0 )
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject1 = new THREE.Line( geometry, material );    
+	curveObject4 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject1);
+	PIEaddElement(curveObject4);
 
 	var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( -0, 3, 0 ),
-	new THREE.Vector3( -0, 6, 0 ),
-	new THREE.Vector3( -0.5, 6, 0 ),
-	new THREE.Vector3( -1, 8, 0 )
-);
+		new THREE.Vector3( 1.5, 3, 0 ),
+		new THREE.Vector3( 1.5, 5, 0 ),
+		new THREE.Vector3( 3, 6, 0 ),
+		new THREE.Vector3( 5, 8, 0 )
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject2 = new THREE.Line( geometry, material );    
+	curveObject5 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject2);
+	PIEaddElement(curveObject5);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 0.5, 3, 0 ),
-	new THREE.Vector3( 0.5, 5, 0 ),
-	new THREE.Vector3( 0.5, 8, 0 ),
-	new THREE.Vector3( 1, 8, 0 )
-);
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( -2, -11, 0 ),
+		new THREE.Vector3( -2, -13, 0 ),
+		new THREE.Vector3( -4, -14, 0 ),
+		new THREE.Vector3( -6, -15, 0 )
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject3 = new THREE.Line( geometry, material );    
+	curveObject6 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject3);
+	PIEaddElement(curveObject6);
 
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( -1, -11, 0 ),
+		new THREE.Vector3( -1, -13, 0 ),
+		new THREE.Vector3( -2.5, -14, 0 ),
+		new THREE.Vector3( -3, -15, 0 )
+	);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 1, 3, 0 ),
-	new THREE.Vector3( 1, 5, 0 ),
-	new THREE.Vector3( 2, 6, 0 ),
-	new THREE.Vector3( 3, 8, 0 )
-);
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	curveObject7 = new THREE.Line( geometry, material );    
 
-// Create the final object to add to the scene
- curveObject4 = new THREE.Line( geometry, material );    
+	PIEaddElement(curveObject7);
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject4);
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( -0.5, -11, 0 ),
+		new THREE.Vector3( -0.5, -13, 0 ),
+		new THREE.Vector3( -1, -14, 0 ),
+		new THREE.Vector3( -1.5, -15, 0 )
+	);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 1.5, 3, 0 ),
-	new THREE.Vector3( 1.5, 5, 0 ),
-	new THREE.Vector3( 3, 6, 0 ),
-	new THREE.Vector3( 5, 8, 0 )
-);
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	curveObject8 = new THREE.Line( geometry, material );    
 
-// Create the final object to add to the scene
- curveObject5 = new THREE.Line( geometry, material );    
+	PIEaddElement(curveObject8);
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject5);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( -2, -11, 0 ),
-	new THREE.Vector3( -2, -13, 0 ),
-	new THREE.Vector3( -4, -14, 0 ),
-	new THREE.Vector3( -6, -15, 0 )
-);
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( 0.5, -11, 0 ),
+		new THREE.Vector3( 0.5, -13, 0 ),
+		new THREE.Vector3( 1, -14, 0 ),
+		new THREE.Vector3( 1.5, -15, 0 )
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject6 = new THREE.Line( geometry, material );    
+	curveObject9 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject6);
+	PIEaddElement(curveObject9);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( -1, -11, 0 ),
-	new THREE.Vector3( -1, -13, 0 ),
-	new THREE.Vector3( -2.5, -14, 0 ),
-	new THREE.Vector3( -3, -15, 0 )
-);
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( 1, -11, 0 ),
+		new THREE.Vector3( 1, -13, 0 ),
+		new THREE.Vector3( 1.5, -14, 0 ),
+		new THREE.Vector3( 3, -15, 0 )
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject7 = new THREE.Line( geometry, material );    
+	curveObject10 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject7);
+	PIEaddElement(curveObject10);
 
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( 1.8, -11, 0 ),
+		new THREE.Vector3( 1.8, -13, 0 ),
+		new THREE.Vector3( 3, -14, 0 ),
+		new THREE.Vector3( 5, -15, 0 )
+	);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( -0.5, -11, 0 ),
-	new THREE.Vector3( -0.5, -13, 0 ),
-	new THREE.Vector3( -1, -14, 0 ),
-	new THREE.Vector3( -1.5, -15, 0 )
-);
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	curveObject11 = new THREE.Line( geometry, material );    
 
-// Create the final object to add to the scene
- curveObject8 = new THREE.Line( geometry, material );    
+	PIEaddElement(curveObject11);
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject8);
 
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 0.5, -11, 0 ),
-	new THREE.Vector3( 0.5, -13, 0 ),
-	new THREE.Vector3( 1, -14, 0 ),
-	new THREE.Vector3( 1.5, -15, 0 )
-);
+	var curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3( 0, -11, 0 ),
+		new THREE.Vector3( 0, -13, 0 ),
+		new THREE.Vector3( 0, -14, 0 ),
+		new THREE.Vector3( 0.3, -15, 0 )
+	);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var geometry = new THREE.Geometry();
+	geometry.vertices = curve.getPoints( 50 );
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	var material = new THREE.LineBasicMaterial( { color : "white" } );
 
-// Create the final object to add to the scene
- curveObject9 = new THREE.Line( geometry, material );    
+	curveObject12 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject9);
+	PIEaddElement(curveObject12);
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 1, -11, 0 ),
-	new THREE.Vector3( 1, -13, 0 ),
-	new THREE.Vector3( 1.5, -14, 0 ),
-	new THREE.Vector3( 3, -15, 0 )
-);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	curveObject.visible = false;
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	curveObject1.visible = false;
+	curveObject2.visible = false;
+	curveObject3.visible = false;
+	curveObject4.visible = false;
+	curveObject5.visible = false;
+	curveObject6.visible = false;
+	curveObject7.visible = false;
+	curveObject8.visible = false;
+	curveObject9.visible = false;
+	curveObject10.visible = false;
+	curveObject11.visible = false;
+	curveObject12.visible = false;
 
-// Create the final object to add to the scene
- curveObject10 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject10);
+	north = new THREE.Mesh(new THREE.BoxGeometry(0.2,2.5,0.1),new THREE.MeshBasicMaterial({color:"red"}));
+	PIEaddElement(north);
+	north.position.set(-1,1,2);
 
 
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 1.8, -11, 0 ),
-	new THREE.Vector3( 1.8, -13, 0 ),
-	new THREE.Vector3( 3, -14, 0 ),
-	new THREE.Vector3( 5, -15, 0 )
-);
+	var north1 = new THREE.Mesh(new THREE.BoxGeometry(0.2,3.3,0.1),new THREE.MeshBasicMaterial({color:"red"}));
+	north.add(north1);
+	north1.rotation.z = Math.PI/5;
+	north1.position.set(1,0,0);
 
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
+	var north2 = new THREE.Mesh(new THREE.BoxGeometry(0.2,2.5,0.1),new THREE.MeshBasicMaterial({color:"red"}));
+	north.add(north2);
+	north2.position.set(2,0,0);
 
-var material = new THREE.LineBasicMaterial( { color : "white" } );
+	north.visible = false;
 
-// Create the final object to add to the scene
- curveObject11 = new THREE.Line( geometry, material );    
 
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject11);
+	var geometry = new THREE.RingGeometry( 0.8, 1, 32,8,0,Math.PI );
+	var material = new THREE.MeshBasicMaterial( { color: "blue", side: THREE.DoubleSide } );
+	
+	south = new THREE.Mesh( geometry, material );
+	PIEaddElement(south);
+	south.position.set(4-4,-5-3,2);
+	south.rotation.z = Math.PI/2;
+	var geometry = new THREE.RingGeometry( 0.8, 1, 32,8,0,Math.PI );
+	var material = new THREE.MeshBasicMaterial( { color: "blue", side: THREE.DoubleSide } );
+	
+	south2 = new THREE.Mesh( geometry, material );
+	PIEaddElement(south2);
+	south2.position.set(3.45-4,-6.6-3,2);
+	south2.rotation.z = -Math.PI/2;
 
-
-
-var curve = new THREE.CubicBezierCurve3(
-	new THREE.Vector3( 0, -11, 0 ),
-	new THREE.Vector3( 0, -13, 0 ),
-	new THREE.Vector3( 0, -14, 0 ),
-	new THREE.Vector3( 0.3, -15, 0 )
-);
-
-var geometry = new THREE.Geometry();
-geometry.vertices = curve.getPoints( 50 );
-
-var material = new THREE.LineBasicMaterial( { color : "white" } );
-
-// Create the final object to add to the scene
- curveObject12 = new THREE.Line( geometry, material );    
-
-   // PIEaddElement(woodenPlank);
-PIEaddElement(curveObject12);
-
-
-curveObject.visible = false;
-
-curveObject1.visible = false;
-curveObject2.visible = false;
-curveObject3.visible = false;
-curveObject4.visible = false;
-curveObject5.visible = false;
-curveObject6.visible = false;
-curveObject7.visible = false;
-curveObject8.visible = false;
-curveObject9.visible = false;
-curveObject10.visible = false;
-curveObject11.visible = false;
-curveObject12.visible = false;
-
-
- north = new THREE.Mesh(new THREE.BoxGeometry(0.2,2.5,0.1),new THREE.MeshBasicMaterial({color:"red"}));
-PIEaddElement(north);
-north.position.set(-1,1,2);
-
-
-var north1 = new THREE.Mesh(new THREE.BoxGeometry(0.2,3.3,0.1),new THREE.MeshBasicMaterial({color:"red"}));
-north.add(north1);
-north1.rotation.z = Math.PI/5;
-north1.position.set(1,0,0);
-
-var north2 = new THREE.Mesh(new THREE.BoxGeometry(0.2,2.5,0.1),new THREE.MeshBasicMaterial({color:"red"}));
-north.add(north2);
-north2.position.set(2,0,0);
-
-north.visible = false;
-
-
-var geometry = new THREE.RingGeometry( 0.8, 1, 32,8,0,Math.PI );
-var material = new THREE.MeshBasicMaterial( { color: "blue", side: THREE.DoubleSide } );
- south = new THREE.Mesh( geometry, material );
-PIEaddElement(south);
-south.position.set(4-4,-5-3,2);
-south.rotation.z = Math.PI/2;
-var geometry = new THREE.RingGeometry( 0.8, 1, 32,8,0,Math.PI );
-var material = new THREE.MeshBasicMaterial( { color: "blue", side: THREE.DoubleSide } );
- south2 = new THREE.Mesh( geometry, material );
-PIEaddElement(south2);
-south2.position.set(3.45-4,-6.6-3,2);
-south2.rotation.z = -Math.PI/2;
-
-south.visible = false;
-south2.visible  = false;
-//scene.add( mesh );
-
-PIEscene.background = new THREE.Color("skyblue");
+	south.visible = false;
+	south2.visible  = false;
+	
+	PIEscene.background = new THREE.Color("skyblue");
 
     var groundMaterial = new THREE.MeshBasicMaterial(  );
-//---------------------------------------------------------------------------------------------------
 
- var mesh233 = new THREE.Mesh( new THREE.PlaneBufferGeometry( 6000, 6000 ), groundMaterial );
+	var mesh233 = new THREE.Mesh( new THREE.PlaneBufferGeometry( 6000, 6000 ), groundMaterial );
     mesh233.position.y =  -29;
     mesh233.material.color.set("lightgreen" );
     mesh233.rotation.x = - Math.PI / 2;
@@ -785,7 +740,7 @@ PIEscene.background = new THREE.Color("skyblue");
     PIEaddElement(mesh233);
     var groundMaterial = new THREE.MeshBasicMaterial(  );
  
- mesh233 = new THREE.Mesh( new THREE.PlaneBufferGeometry(300, 300 ), groundMaterial );
+	mesh233 = new THREE.Mesh( new THREE.PlaneBufferGeometry(300, 300 ), groundMaterial );
     mesh233.position.y = - 15-10;
     mesh233.material.color.set("darkgreen" );
     mesh233.rotation.x = - Math.PI / 2;
@@ -800,31 +755,30 @@ PIEscene.background = new THREE.Color("skyblue");
     PIEadjustCamera(0,0,75);
    
 
-
-
     PIErender();
 }
+
 function resetExperiment()
 {
 	
-curveObject.visible = false;
+	curveObject.visible = false;
 
-curveObject1.visible = false;
-curveObject2.visible = false;
-curveObject3.visible = false;
-curveObject4.visible = false;
-curveObject5.visible = false;
-curveObject6.visible = false;
-curveObject7.visible = false;
-curveObject8.visible = false;
-curveObject9.visible = false;
-curveObject10.visible = false;
-curveObject11.visible = false;
-curveObject12.visible = false;
+	curveObject1.visible = false;
+	curveObject2.visible = false;
+	curveObject3.visible = false;
+	curveObject4.visible = false;
+	curveObject5.visible = false;
+	curveObject6.visible = false;
+	curveObject7.visible = false;
+	curveObject8.visible = false;
+	curveObject9.visible = false;
+	curveObject10.visible = false;
+	curveObject11.visible = false;
+	curveObject12.visible = false;
 
-north.visible = false;
-south.visible = false;
-south2.visible  = false;
+	north.visible = false;
+	south.visible = false;
+	south2.visible  = false;
 
     line.material.color.setStyle("black");
     wire.material.color.setStyle("black");
@@ -847,23 +801,22 @@ function updateExperimentElements(t, dt)
     if(onoff == 1){
     	curveObject.visible = true;
 
-curveObject1.visible = true;
-curveObject2.visible = true;
-curveObject3.visible = true;
-curveObject4.visible = true;
-curveObject5.visible = true;
-curveObject6.visible = true;
-curveObject7.visible = true;
-curveObject8.visible = true;
-curveObject9.visible = true;
-curveObject10.visible = true;
-curveObject11.visible = true;
-curveObject12.visible = true;
+		curveObject1.visible = true;
+		curveObject2.visible = true;
+		curveObject3.visible = true;
+		curveObject4.visible = true;
+		curveObject5.visible = true;
+		curveObject6.visible = true;
+		curveObject7.visible = true;
+		curveObject8.visible = true;
+		curveObject9.visible = true;
+		curveObject10.visible = true;
+		curveObject11.visible = true;
+		curveObject12.visible = true;
 
-north.visible = true;
-south.visible = true;
-south2.visible  = true;
-
+		north.visible = true;
+		south.visible = true;
+		south2.visible  = true;
 
         if(pin.rotation.y > -Math.PI/24)
 	        pin.rotation.y-=0.005;
@@ -877,22 +830,22 @@ south2.visible  = true;
     if(onoff == 0){
     	curveObject.visible = false;
 
-curveObject1.visible = false;
-curveObject2.visible = false;
-curveObject3.visible = false;
-curveObject4.visible = false;
-curveObject5.visible = false;
-curveObject6.visible = false;
-curveObject7.visible = false;
-curveObject8.visible = false;
-curveObject9.visible = false;
-curveObject10.visible = false;
-curveObject11.visible = false;
-curveObject12.visible = false;
+		curveObject1.visible = false;
+		curveObject2.visible = false;
+		curveObject3.visible = false;
+		curveObject4.visible = false;
+		curveObject5.visible = false;
+		curveObject6.visible = false;
+		curveObject7.visible = false;
+		curveObject8.visible = false;
+		curveObject9.visible = false;
+		curveObject10.visible = false;
+		curveObject11.visible = false;
+		curveObject12.visible = false;
 
-north.visible = false;
-south.visible = false;
-south2.visible  = false;
+		north.visible = false;
+		south.visible = false;
+		south2.visible  = false;
 
         if(pin.rotation.y < 0)
             pin.rotation.y+=0.005;
@@ -900,7 +853,6 @@ south2.visible  = false;
             greenLight.material.color.setStyle("white");
             redLight.material.color.setStyle("red");
          }
-
     }
 }
 
